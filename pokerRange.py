@@ -1294,18 +1294,27 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_clear.setText(_translate("MainWindow", "Clear"))
         self.btn_connect.setText(_translate("MainWindow", "RangeInfo"))
     
-    def action_clicked(self, menu_btn):
+    def menu_elements_action(self, menu_btn):
+        """
+        Actions for every item in the menu
+        """
         if menu_btn == 'Load':
             fname = QFileDialog.getOpenFileName(self, "Open Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
             try:
-                with open(fname, 'r') as f:
-                    text_range = f.readline()
-                range = Range(text_range)
-                flat_range = [str(hand) for hand in range.hands]
+                df = pd.read_excel(fname, dtype={'pos': 'str'})
+                self.dict_range = df.set_index('pos').range.to_dict()
+                self.range_listWidget.addItems(df.pos.values)
 
+                self.range_listWidget.setCurrentRow(0)
+
+                range_list = [str(hand) for hand in Range(df.range.values[0]).hands]
                 for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-                    if button.text() in flat_range:
+                    if button.text() in range_list:
                         button.setChecked(True)
+                    else:
+                        button.setChecked(False)
+
+
                 
             except FileNotFoundError:
                 pass
@@ -1332,6 +1341,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         if menu_btn == 'Close':
             sys.exit()
+
     
     # РАЗОБРАТЬСЯ с циклом
     def add_functions(self):
@@ -1344,9 +1354,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_clear.clicked.connect(self.clear_label)
         self.btn_connect.clicked.connect(self.display_range)
 
-        self.actionLoad.triggered.connect(lambda: self.action_clicked(self.actionLoad.text()))
-        self.actionSave.triggered.connect(lambda: self.action_clicked(self.actionSave.text()))
-        self.actionClose.triggered.connect(lambda: self.action_clicked(self.actionClose.text()))
+        self.actionLoad.triggered.connect(lambda: self.menu_elements_action(self.actionLoad.text()))
+        self.actionSave.triggered.connect(lambda: self.menu_elements_action(self.actionSave.text()))
+        self.actionClose.triggered.connect(lambda: self.menu_elements_action(self.actionClose.text()))
         self.btn_saveRange.clicked.connect(self.add_list_widget_item)
         self.btn_delRange.clicked.connect(self.del_item_from_listwidget)
 
