@@ -118,7 +118,12 @@ venv.bak/
 .ropeproject
 
 # mkdocs documentation
-/site
+/documents
+
+# local files for dev
+playground.ipynb
+pokerRange_tmp.py
+.DS_Store
 
 # mypy
 .mypy_cache/
