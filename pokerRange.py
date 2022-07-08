@@ -1301,9 +1301,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if menu_btn == 'Load':
             fname = QFileDialog.getOpenFileName(self, "Open Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
             try:
-                df = pd.read_excel(fname, dtype={'pos': 'str'})
-                self.dict_range = df.set_index('pos').range.to_dict()
-                self.range_listWidget.addItems(df.pos.values)
+                df = pd.read_excel(fname, dtype={'position': 'str'})
+                self.dict_range = df.set_index('position').range.to_dict()
+                self.range_listWidget.addItems(df.position.values)
 
                 self.range_listWidget.setCurrentRow(0)
 
@@ -1322,7 +1322,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if menu_btn == 'Save':
             lw = self.range_listWidget
             if lw.count() == 0:
-                df = pd.DataFrame({'pos': ['current_range'],
+                df = pd.DataFrame({'position': ['current_range'],
                                    'range': [' '.join(self.get_list_of_pushed_buttons()[1].rep_pieces)]})
             else:
                 df_form = []
@@ -1330,7 +1330,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     pos_name = lw.item(i).text()
                     range_str = ' '.join(self.dict_range[pos_name].rep_pieces)
                     df_form.append((pos_name, range_str))
-                    df = pd.DataFrame(df_form, columns=['pos', 'range'])
+                    df = pd.DataFrame(df_form, columns=['position', 'range'])
 
             fname = QFileDialog.getSaveFileName(self, "Save Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
 
@@ -1360,11 +1360,19 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_saveRange.clicked.connect(self.add_list_widget_item)
         self.btn_delRange.clicked.connect(self.del_item_from_listwidget)
 
-        self.range_listWidget.currentRowChanged.connect(self.test_function)
+        self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)
 
-    def test_function(self):
+    def display_range_by_item(self):
         try:
-            print(self.range_listWidget.currentItem().text())
+            pos = self.range_listWidget.currentItem().text()
+            range_list = [str(hand) for hand in Range(self.dict_range[pos]).hands]
+
+            for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+                    if button.text() in range_list:
+                        button.setChecked(True)
+                    else:
+                        button.setChecked(False)
+            
         except AttributeError:
             pass
     
