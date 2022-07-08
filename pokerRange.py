@@ -9,11 +9,14 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from poker import Range
 from PyQt5.QtWidgets import QMessageBox, QFileDialog
 
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+
+import numpy as np
+import pandas as pd
+from poker import Range
 
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
@@ -1308,13 +1311,22 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 pass
         
         if menu_btn == 'Save':
-            fname = QFileDialog.getSaveFileName(self)[0]
+            lw = self.range_listWidget
+            if lw.count() == 0:
+                df = pd.DataFrame({'pos': ['current_range'],
+                                   'range': [' '.join(self.get_list_of_pushed_buttons()[1].rep_pieces)]})
+            else:
+                df_form = []
+                for i in np.arange(lw.count()):
+                    pos_name = lw.item(i).text()
+                    range_str = ' '.join(self.dict_range[pos_name].rep_pieces)
+                    df_form.append((pos_name, range_str))
+                    df = pd.DataFrame(df_form, columns=['pos', 'range'])
 
-            lst_pushed_btns = self.get_list_of_pushed_buttons()
-            range_text = ','.join(lst_pushed_btns)
+            fname = QFileDialog.getSaveFileName(self, "Save Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
+
             try:
-                with open(fname, 'w') as f:
-                    f.write(range_text)
+                df.to_excel(fname, index=False)
             except Exception:
                 pass
 
@@ -1348,26 +1360,34 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
     
     # очистка нажатий кнопок
     def clear_label(self):
+        """
+        Change check status of pushed buttons and clear textEdit
+        """
+
+        self.textEdit.setText('')
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 button.nextCheckState()
                 
 
-    # Собирает список нажатых кнопок в лист
     def get_list_of_pushed_buttons(self):
+        """
+        Function create list of buttons which Check state is True
+
+        return: list, Range  
+        """
         list_of_pushed_button = []
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 list_of_pushed_button.append(button.text())
-        
-        return sorted(list_of_pushed_button)
+        range_view_of_pushed_buttons = Range(' '.join(list_of_pushed_button))
+        return sorted(list_of_pushed_button), range_view_of_pushed_buttons
 
     # Пример вспывающего окна
     def display_range(self):
-        lst_pushed_btns = self.get_list_of_pushed_buttons()
-        range = Range(' '.join(lst_pushed_btns))
+        _, pos_range = self.get_list_of_pushed_buttons()
 
         msgbox = QMessageBox()
         msgbox.setWindowTitle('Info')
@@ -1376,15 +1396,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         msgbox.setStandardButtons(QMessageBox.Ok)
 
-        msgbox.setInformativeText(', '.join(range.rep_pieces))
+        msgbox.setInformativeText(', '.join(pos_range.rep_pieces))
         msgbox.setDetailedText(range.to_ascii())
         msgbox.exec_()
 
     def add_list_widget_item(self):
 
         item_name = self.textEdit.toPlainText()
-        pushed_buttons = self.get_list_of_pushed_buttons()
-        self.dict_range[item_name] = pushed_buttons
+        pos_range = self.get_list_of_pushed_buttons()[1]
+        self.dict_range[item_name] = pos_range
 
         if (not self.range_listWidget.findItems(item_name, Qt.MatchExactly)) and (item_name.strip() != ''):
             self.range_listWidget.addItem(item_name)
