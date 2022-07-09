@@ -27,6 +27,20 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.add_functions()
         self.dict_range = {}
+        # self.range_listWidget.installEventFilter(self)
+        self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)        
+
+
+    # def eventFilter(self, source, event):
+    #         if (event.type() == QtCore.QEvent.ContextMenu and
+    #             source is self.range_listWidget):
+    #             menu = QtWidgets.QMenu()
+    #             menu.addAction('Open Window')
+    #             if menu.exec_(event.globalPos()):
+    #                 item = source.itemAt(event.pos())
+    #                 print(item.text())
+    #             return True
+    #         return super(Ui_MainWindow, self).eventFilter(source, event)
 
     def menu_elements_action(self, menu_btn):
         """
@@ -36,8 +50,19 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             fname = QFileDialog.getOpenFileName(self, "Open Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
             try:
                 df = pd.read_excel(fname, dtype={'position': 'str'})
-                self.dict_range = df.set_index('position').range.to_dict()
-                self.range_listWidget.addItems(df.position.values)
+                for k,v in zip(df.position.values, df.range.values):
+                    self.dict_range [k] = v
+
+                cnt_current_items = self.range_listWidget.count()
+                if cnt_current_items == 0:
+                    self.range_listWidget.addItems(df.position.values)
+                else: 
+                    current_items = [self.range_listWidget.item(i).text() for i in range(self.range_listWidget.count())]
+                    want_to_load_items = df.position.values
+
+                    difference = list(set(want_to_load_items) - set(current_items))
+                    self.range_listWidget.addItems(difference)
+
 
                 self.range_listWidget.setCurrentRow(0)
 
@@ -47,7 +72,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                         button.setChecked(True)
                     else:
                         button.setChecked(False)
-
 
                 
             except FileNotFoundError:
@@ -91,15 +115,15 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_saveRange.clicked.connect(self.add_list_widget_item)
         self.btn_delRange.clicked.connect(self.del_item_from_listwidget)
 
-        self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)        
 
     def display_range_by_item(self):
+        print(self.dict_range.keys())
         """
         Connection between QListWidget item and buttons. Display choosen range 
         """
         try:
             pos = self.range_listWidget.currentItem().text()
-            range_list = [str(hand) for hand in self.dict_range[pos].hands]
+            range_list = [str(hand) for hand in Range(self.dict_range[pos]).hands]
 
             for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
                     if button.text() in range_list:
@@ -110,7 +134,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         except AttributeError:
             pass
     
-    # очистка нажатий кнопок
     def clear_label(self):
         """
         Change check status of pushed buttons and clear textEdit
@@ -161,7 +184,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         item_name = self.textEdit.toPlainText()
         pos_range = self.get_list_of_pushed_buttons()[1]
-        self.dict_range[item_name] = pos_range
+        self.dict_range[item_name] = ' '.join(pos_range.rep_pieces)
 
         if (not self.range_listWidget.findItems(item_name, Qt.MatchExactly)) and (item_name.strip() != ''):
             self.range_listWidget.addItem(item_name)
