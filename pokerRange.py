@@ -27,20 +27,31 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.add_functions()
         self.dict_range = {}
-        # self.range_listWidget.installEventFilter(self)
-        self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)        
+
+        self.range_listWidget.installEventFilter(self)
+        self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)
+
+        self.tEdit_range.installEventFilter(self)
+    
 
 
-    # def eventFilter(self, source, event):
-    #         if (event.type() == QtCore.QEvent.ContextMenu and
-    #             source is self.range_listWidget):
-    #             menu = QtWidgets.QMenu()
-    #             menu.addAction('Open Window')
-    #             if menu.exec_(event.globalPos()):
-    #                 item = source.itemAt(event.pos())
-    #                 print(item.text())
-    #             return True
-    #         return super(Ui_MainWindow, self).eventFilter(source, event)
+    def eventFilter(self, source, event):
+        """
+        All keyboard actions
+        """
+        # right click mouse action for listWidget
+        if (event.type() == QtCore.QEvent.ContextMenu and source is self.range_listWidget):
+            menu = QtWidgets.QMenu()
+            menu.addAction('Open Window')
+            if menu.exec_(event.globalPos()):
+                item = source.itemAt(event.pos())
+                print(item.text())
+            return True
+        # keyboard enter action for text edit
+        if event.type() == QtCore.QEvent.KeyPress and source is self.tEdit_range:
+            if event.key() == QtCore.Qt.Key_Return and self.tEdit_range.hasFocus():
+                print('Enter pressed')
+        return super(Ui_MainWindow, self).eventFilter(source, event)
 
     def menu_elements_action(self, menu_btn):
         """
@@ -117,7 +128,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
 
     def display_range_by_item(self):
-        print(self.dict_range.keys())
         """
         Connection between QListWidget item and buttons. Display choosen range 
         """

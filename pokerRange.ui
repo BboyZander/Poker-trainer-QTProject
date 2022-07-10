@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>899</width>
-    <height>692</height>
+    <width>991</width>
+    <height>804</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QPushButton" name="btn_clear">
     <property name="geometry">
      <rect>
-      <x>520</x>
-      <y>570</y>
-      <width>101</width>
-      <height>32</height>
+      <x>700</x>
+      <y>640</y>
+      <width>130</width>
+      <height>50</height>
      </rect>
     </property>
     <property name="text">
@@ -30,22 +30,22 @@
    <widget class="QPushButton" name="btn_connect">
     <property name="geometry">
      <rect>
-      <x>630</x>
-      <y>570</y>
-      <width>101</width>
+      <x>30</x>
+      <y>710</y>
+      <width>141</width>
       <height>32</height>
      </rect>
     </property>
     <property name="text">
-     <string>RangeInfo</string>
+     <string>RangeInfo (tmp)</string>
     </property>
    </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>10</y>
-      <width>691</width>
+      <x>190</x>
+      <y>20</y>
+      <width>661</width>
       <height>551</height>
      </rect>
     </property>
@@ -3323,21 +3323,11 @@
      </item>
     </layout>
    </widget>
-   <widget class="QWidget" name="widget" native="true">
-    <property name="geometry">
-     <rect>
-      <x>630</x>
-      <y>360</y>
-      <width>120</width>
-      <height>80</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QListWidget" name="range_listWidget">
     <property name="geometry">
      <rect>
-      <x>730</x>
-      <y>10</y>
+      <x>30</x>
+      <y>20</y>
       <width>151</width>
       <height>551</height>
      </rect>
@@ -3347,8 +3337,8 @@
     <property name="geometry">
      <rect>
       <x>30</x>
-      <y>590</y>
-      <width>111</width>
+      <y>580</y>
+      <width>151</width>
       <height>31</height>
      </rect>
     </property>
@@ -3359,8 +3349,8 @@
    <widget class="QPushButton" name="btn_saveRange">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>580</y>
+      <x>50</x>
+      <y>620</y>
       <width>111</width>
       <height>32</height>
      </rect>
@@ -3372,8 +3362,8 @@
    <widget class="QPushButton" name="btn_delRange">
     <property name="geometry">
      <rect>
-      <x>150</x>
-      <y>610</y>
+      <x>50</x>
+      <y>650</y>
       <width>111</width>
       <height>32</height>
      </rect>
@@ -3382,13 +3372,122 @@
      <string>Delete Range</string>
     </property>
    </widget>
+   <widget class="QTextEdit" name="tEdit_range">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>710</y>
+      <width>651</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_allrange">
+    <property name="geometry">
+     <rect>
+      <x>220</x>
+      <y>640</y>
+      <width>130</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>All</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_cnt_combos">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>580</y>
+      <width>241</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="text">
+     <string>0 combos in preflop range</string>
+    </property>
+    <property name="scaledContents">
+     <bool>false</bool>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+    <property name="margin">
+     <number>0</number>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_pocket">
+    <property name="geometry">
+     <rect>
+      <x>340</x>
+      <y>640</y>
+      <width>130</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Pocket</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_broadway">
+    <property name="geometry">
+     <rect>
+      <x>460</x>
+      <y>640</y>
+      <width>130</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Broadway</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_broadway_2">
+    <property name="geometry">
+     <rect>
+      <x>580</x>
+      <y>640</y>
+      <width>130</width>
+      <height>50</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Suited</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="horizontalSlider">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>610</y>
+      <width>661</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>899</width>
+     <width>991</width>
      <height>24</height>
     </rect>
    </property>
