@@ -45,7 +45,7 @@
      <rect>
       <x>190</x>
       <y>20</y>
-      <width>661</width>
+      <width>681</width>
       <height>551</height>
      </rect>
     </property>
@@ -3455,7 +3455,7 @@
      <string>Broadway</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_broadway_2">
+   <widget class="QPushButton" name="btn_suited">
     <property name="geometry">
      <rect>
       <x>580</x>
