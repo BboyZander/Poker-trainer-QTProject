@@ -51,24 +51,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_broadway.clicked.connect(lambda: self.buttons_range(self.btn_broadway.text()))
         self.btn_suited.clicked.connect(lambda: self.buttons_range(self.btn_suited.text()))
 
-
-    def buttons_range(self, button_text):
-        all_hands = [str(hand) for hand in Range('XX').hands]
-        if button_text == 'All':
-            hands_remained = all_hands
-    
-        if button_text == 'Broadway':
-            hands_remained = [hand for hand in all_hands if (hand[0] in ['A', 'K', 'Q', 'J', 'T']) and (hand[1] in ['A', 'K', 'Q', 'J', 'T'])]
-
-        if button_text == 'Pocket':
-            hands_remained = [hand for hand in all_hands if len(hand) == 2]
- 
-        if button_text == 'Suited':
-            hands_remained = [hand for hand in all_hands if hand[-1] == 's']
-
-        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-            if button.text() in hands_remained:
-                button.setChecked(True)
+        self.tEdit_range.textChanged.connect(self.range_by_textedit)
 
 
     def eventFilter(self, source, event):
@@ -87,7 +70,50 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if event.type() == QtCore.QEvent.KeyPress and source is self.tEdit_range:
             if event.key() == QtCore.Qt.Key_Return and self.tEdit_range.hasFocus():
                 print('Enter pressed')
+
         return super(Ui_MainWindow, self).eventFilter(source, event)
+
+    def buttons_range(self, button_text):
+        """
+        Draw range depending on the button
+        """
+        all_hands = [str(hand) for hand in Range('XX').hands]
+        if button_text == 'All':
+            hands_remained = all_hands
+    
+        if button_text == 'Broadway':
+            hands_remained = [hand for hand in all_hands if (hand[0] in ['A', 'K', 'Q', 'J', 'T']) and (hand[1] in ['A', 'K', 'Q', 'J', 'T'])]
+
+        if button_text == 'Pocket':
+            hands_remained = [hand for hand in all_hands if len(hand) == 2]
+ 
+        if button_text == 'Suited':
+            hands_remained = [hand for hand in all_hands if hand[-1] == 's']
+
+        range_updated = self.tEdit_range.toPlainText() + ' ' + str(Range(' '.join(hands_remained)))
+        print(range_updated)
+        # print(str(Range(' '.join(hands_remained))))
+
+        self.tEdit_range.setPlainText(str(Range(range_updated)))
+
+        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+            if button.text() in hands_remained:
+                button.setChecked(True)
+
+    def range_by_textedit(self):
+        text = self.tEdit_range.toPlainText()
+        try:
+            r_text = Range(text)
+            r_text_str = [str(h) for h in r_text.hands]
+
+            for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+                if button.text() in r_text_str:
+                    button.setChecked(True)
+                else:
+                    button.setChecked(False)
+
+        except Exception:
+            pass
 
     def menu_elements_action(self, menu_btn):
         """
