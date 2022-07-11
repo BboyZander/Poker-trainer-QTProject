@@ -33,6 +33,42 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.tEdit_range.installEventFilter(self)
     
+    def add_functions(self):
+        """
+        Contains all connections between buttons and actions
+        """
+
+        self.btn_clear.clicked.connect(self.clear_label)
+        self.btn_connect.clicked.connect(self.display_range)
+
+        self.actionLoad.triggered.connect(lambda: self.menu_elements_action(self.actionLoad.text()))
+        self.actionSave.triggered.connect(lambda: self.menu_elements_action(self.actionSave.text()))
+        self.actionClose.triggered.connect(lambda: self.menu_elements_action(self.actionClose.text()))
+        self.btn_saveRange.clicked.connect(self.add_list_widget_item)
+        self.btn_delRange.clicked.connect(self.del_item_from_listwidget)
+        self.btn_allrange.clicked.connect(lambda: self.buttons_range(self.btn_allrange.text()))
+        self.btn_pocket.clicked.connect(lambda: self.buttons_range(self.btn_pocket.text()))
+        self.btn_broadway.clicked.connect(lambda: self.buttons_range(self.btn_broadway.text()))
+        self.btn_suited.clicked.connect(lambda: self.buttons_range(self.btn_suited.text()))
+
+
+    def buttons_range(self, button_text):
+        all_hands = [str(hand) for hand in Range('XX').hands]
+        if button_text == 'All':
+            hands_remained = all_hands
+    
+        if button_text == 'Broadway':
+            hands_remained = [hand for hand in all_hands if (hand[0] in ['A', 'K', 'Q', 'J', 'T']) and (hand[1] in ['A', 'K', 'Q', 'J', 'T'])]
+
+        if button_text == 'Pocket':
+            hands_remained = [hand for hand in all_hands if len(hand) == 2]
+ 
+        if button_text == 'Suited':
+            hands_remained = [hand for hand in all_hands if hand[-1] == 's']
+
+        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+            if button.text() in hands_remained:
+                button.setChecked(True)
 
 
     def eventFilter(self, source, event):
@@ -111,22 +147,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         if menu_btn == 'Close':
             sys.exit()
 
-    
-    def add_functions(self):
-        """
-        Contains all connections between buttons and actions
-        """
-
-        self.btn_clear.clicked.connect(self.clear_label)
-        self.btn_connect.clicked.connect(self.display_range)
-
-        self.actionLoad.triggered.connect(lambda: self.menu_elements_action(self.actionLoad.text()))
-        self.actionSave.triggered.connect(lambda: self.menu_elements_action(self.actionSave.text()))
-        self.actionClose.triggered.connect(lambda: self.menu_elements_action(self.actionClose.text()))
-        self.btn_saveRange.clicked.connect(self.add_list_widget_item)
-        self.btn_delRange.clicked.connect(self.del_item_from_listwidget)
-
-
     def display_range_by_item(self):
         """
         Connection between QListWidget item and buttons. Display choosen range 
@@ -154,8 +174,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 button.nextCheckState()
-                
-
+       
     def get_list_of_pushed_buttons(self):
         """
         Function create list of buttons which Check state is True
