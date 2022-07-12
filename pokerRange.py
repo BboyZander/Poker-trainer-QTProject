@@ -68,17 +68,40 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def rangeButtonClicked(self):
         sender = self.sender()  # This is what you need
-        combos_cnt = self.lbl_cnt_combos.text().split()[0]
+
         if sender.isChecked():
             new_range = self.tEdit_range.toPlainText() + ' ' + sender.text()
             self.tEdit_range.setPlainText(str(Range(new_range)))
+        
         else:
             current_range = [str(i) for i in Range(self.tEdit_range.toPlainText()).hands]
             new_range = [i for i in current_range if i != sender.text()]
             self.tEdit_range.setPlainText(str(Range(' '.join(new_range))))
 
-        self.statusBar().showMessage(sender.text() + ' was pressed')
+        current_range = Range(self.tEdit_range.toPlainText())
+        old_combos_cnt, new_combos_cnt = self.calculate_cnt_combos(current_range)
 
+
+        self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(old_combos_cnt, new_combos_cnt))   
+
+    def calculate_cnt_combos(self, combos_range):
+        """
+        Update current count of combos in Qlabel
+
+        return: old_combos_cnt::str, new_combos_cnt::str
+        """
+        old_combos_cnt = int(self.lbl_cnt_combos.text().split()[0])
+        new_combos_cnt = 0
+
+        combos = [str(i) for i in combos_range.hands]
+        for hand in combos:
+            if hand[-1] == 's':
+                new_combos_cnt += 4
+            elif hand[-1] == 'o':
+                new_combos_cnt += 12
+            else:
+                new_combos_cnt += 6
+        return str(old_combos_cnt), str(new_combos_cnt)
 
     def eventFilter(self, source, event):
         """
@@ -127,6 +150,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             if button.text() in hands_remained:
                 button.setChecked(True)
 
+        current_range = Range(self.tEdit_range.toPlainText())
+        old_combos_cnt, new_combos_cnt = self.calculate_cnt_combos(current_range)
+
+
+        self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(old_combos_cnt, new_combos_cnt))   
+
 
     def range_by_textedit(self):
         text = self.tEdit_range.toPlainText()
@@ -174,7 +203,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     else:
                         button.setChecked(False)
 
-                
+                self.statusBar().showMessage('Range loaded')    
             except FileNotFoundError:
                 pass
         
@@ -195,8 +224,11 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
             try:
                 df.to_excel(fname, index=False)
+                self.statusBar().showMessage('Range saved') 
             except Exception:
                 pass
+
+
 
         if menu_btn == 'Close':
             sys.exit()
@@ -230,6 +262,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 button.nextCheckState()
 
         self.tEdit_range.setPlainText('')
+        cnt_combos = self.lbl_cnt_combos.text().split()[0]
+        self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(cnt_combos, '0'))
        
     def get_list_of_pushed_buttons(self):
         """
