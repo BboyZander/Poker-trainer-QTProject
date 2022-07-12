@@ -32,6 +32,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)
 
         self.tEdit_range.installEventFilter(self)
+        self.gridLayout.installEventFilter(self)
+
+        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+            button.clicked.connect(self.rangeButtonClicked)
     
     def add_functions(self):
         """
@@ -54,6 +58,28 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.tEdit_range.textChanged.connect(self.range_by_textedit)
 
 
+    # def eventFilter(self, obj, event):
+    #     if self.gridLayout is obj:
+    #         if event.type() == QtCore.QEvent.MouseButtonPress:
+    #             print(self.gridLayout, "press")
+    #         elif event.type() == QtCore.QEvent.MouseButtonRelease:
+    #             print(self.gridLayout, "release")
+    #     return super(Ui_MainWindow, self).eventFilter(obj, event)
+
+    def rangeButtonClicked(self):
+        sender = self.sender()  # This is what you need
+        combos_cnt = self.lbl_cnt_combos.text().split()[0]
+        if sender.isChecked():
+            new_range = self.tEdit_range.toPlainText() + ' ' + sender.text()
+            self.tEdit_range.setPlainText(str(Range(new_range)))
+        else:
+            current_range = [str(i) for i in Range(self.tEdit_range.toPlainText()).hands]
+            new_range = [i for i in current_range if i != sender.text()]
+            self.tEdit_range.setPlainText(str(Range(' '.join(new_range))))
+
+        self.statusBar().showMessage(sender.text() + ' was pressed')
+
+
     def eventFilter(self, source, event):
         """
         All keyboard actions
@@ -69,9 +95,12 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         # keyboard enter action for text edit
         if event.type() == QtCore.QEvent.KeyPress and source is self.tEdit_range:
             if event.key() == QtCore.Qt.Key_Return and self.tEdit_range.hasFocus():
+                print(dir(event))
                 print('Enter pressed')
 
+
         return super(Ui_MainWindow, self).eventFilter(source, event)
+
 
     def buttons_range(self, button_text):
         """
@@ -91,14 +120,13 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             hands_remained = [hand for hand in all_hands if hand[-1] == 's']
 
         range_updated = self.tEdit_range.toPlainText() + ' ' + str(Range(' '.join(hands_remained)))
-        print(range_updated)
-        # print(str(Range(' '.join(hands_remained))))
 
         self.tEdit_range.setPlainText(str(Range(range_updated)))
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.text() in hands_remained:
                 button.setChecked(True)
+
 
     def range_by_textedit(self):
         text = self.tEdit_range.toPlainText()
@@ -200,6 +228,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 button.nextCheckState()
+
+        self.tEdit_range.setPlainText('')
        
     def get_list_of_pushed_buttons(self):
         """
