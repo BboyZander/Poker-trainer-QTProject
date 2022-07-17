@@ -17,7 +17,10 @@ from PyQt6.QtGui import *
 import numpy as np
 import pandas as pd
 import math
+import re
+
 from poker import Range
+from poker.hand import Hand
 
 
 class Ui_MainWindow(QtWidgets.QMainWindow):
@@ -37,6 +40,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             button.clicked.connect(self.rangeButtonClicked)
+
     
     def add_functions(self):
         """
@@ -58,28 +62,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
 
         self.tEdit_range.textChanged.connect(self.range_by_textedit)
-        self.slider_range.sliderMoved.connect(self.slider_range_draw)
-
-
-    # def eventFilter(self, obj, event):
-    #     if self.gridLayout is obj:
-    #         if event.type() == QtCore.QEvent.MouseButtonPress:
-    #             print(self.gridLayout, "press")
-    #         elif event.type() == QtCore.QEvent.MouseButtonRelease:
-    #             print(self.gridLayout, "release")
-    #     return super(Ui_MainWindow, self).eventFilter(obj, event)
-
-    def slider_range_draw(self):
-        sender = self.sender()
-
-        all_combos = sorted([str(hand) for hand in Range('XX').hands], reverse=True)
-        current_combos = [str(hand) for hand in Range(self.tEdit_range.toPlainText()).hands]
-        combos_remained = list(set(all_combos) - set(current_combos))
-        print(sender.sliderPosition())
 
     def rangeButtonClicked(self):
         """
-        Change check status for button and update textEdit, label with combos and slider slider
+        Change check status for button and update textEdit, label with combos
         """
         sender = self.sender()
 
@@ -93,37 +79,28 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             self.tEdit_range.setPlainText(str(Range(' '.join(new_range))))
 
         current_range = Range(self.tEdit_range.toPlainText())
-        old_combos_cnt, new_combos_cnt = self.calculate_cnt_combos(current_range)
-
-        self.slider_value_updater(current_range)
-
-        self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(old_combos_cnt, new_combos_cnt))
-
-    def slider_value_updater(self, current_range):
-        """
-        Update slider value
-        """
-        all_combos = sorted([str(hand) for hand in Range('XX').hands], reverse=True)
-        current_combos = [str(hand) for hand in current_range.hands]
         
-        slider_value = math.ceil(len(current_combos)/ len(all_combos)*100)
-
-        self.slider_range.setValue(slider_value)
-        self.slider_range.setSliderPosition(slider_value)
-        self.slider_range.repaint()
-
-        self.tEdit_percentage.setPlainText('{} %'.format(slider_value))
+        self.update_combo_label(current_range)
 
 
-    def calculate_cnt_combos(self, combos_range):
+    def update_combo_label(self, combos_range):
         """
         Update current count of combos in Qlabel
 
         :combos_range: Range format of current combos
-        :return: old_combos_cnt::str, new_combos_cnt::str
+        :return: old_combos_cnt::str, new_combos_cnt::str, percent of hands::str
         """
-        old_combos_cnt = int(self.lbl_cnt_combos.text().split()[0])
+
+        combos_pattern = '\d* combos'
+        percent_pattern = '\d*\.{,1}\d* %'
+        
+        combos_text = re.findall(combos_pattern, self.lbl_cnt_combos.text())[0]
+        percent_text = re.findall(percent_pattern, self.lbl_cnt_combos.text())[0]
+
+        # old_combos_cnt = int(combos_text.split()[0])
         new_combos_cnt = 0
+
+        # old_percent_cnt = int(percent_text.split()[0])
 
         combos = [str(i) for i in combos_range.hands]
         for hand in combos:
@@ -133,7 +110,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 new_combos_cnt += 12
             else:
                 new_combos_cnt += 6
-        return str(old_combos_cnt), str(new_combos_cnt)
+        
+        new_text = self.lbl_cnt_combos.text().replace(combos_text, str(new_combos_cnt) + ' combos').replace(percent_text, str(round(len(combos)/ len(list(Hand))* 100, 1)) + ' %')
+        self.lbl_cnt_combos.setText(new_text)
 
     # def eventFilter(self, source, event):
     #     """
@@ -177,18 +156,13 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         range_updated = self.tEdit_range.toPlainText() + ' ' + str(Range(' '.join(hands_remained)))
 
         self.tEdit_range.setPlainText(str(Range(range_updated)))
-        self.slider_value_updater(Range(range_updated))
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.text() in hands_remained:
                 button.setChecked(True)
 
         current_range = Range(self.tEdit_range.toPlainText())
-        old_combos_cnt, new_combos_cnt = self.calculate_cnt_combos(current_range)
-
-
-        self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(old_combos_cnt, new_combos_cnt))   
-
+        self.update_combo_label(current_range) 
 
     def range_by_textedit(self):
         text = self.tEdit_range.toPlainText()
@@ -202,11 +176,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 else:
                     button.setChecked(False)
 
-            self.slider_value_updater(r_text)
-
-            old_combos_cnt, new_combos_cnt = self.calculate_cnt_combos(r_text)
-            self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(old_combos_cnt, new_combos_cnt)) 
-
+            self.update_combo_label(r_text)
         except Exception:
             pass
 
@@ -302,7 +272,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.tEdit_range.setPlainText('')
         cnt_combos = self.lbl_cnt_combos.text().split()[0]
         self.lbl_cnt_combos.setText(self.lbl_cnt_combos.text().replace(cnt_combos, '0'))
-        self.slider_value_updater(Range(''))
        
     def get_list_of_pushed_buttons(self):
         """
