@@ -61,7 +61,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_clear.clicked.connect(self.clear_label)
 
 
-        self.tEdit_range.textChanged.connect(self.range_by_textedit)
+        self.tEdit_range.textChanged.connect(self.tEditTextChangeEvent)
 
     def rangeButtonClicked(self):
         """
@@ -85,22 +85,19 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def update_combo_label(self, combos_range):
         """
-        Update current count of combos in Qlabel
+        Update current number of combos in a Qlabel
 
-        :combos_range: Range format of current combos
-        :return: old_combos_cnt::str, new_combos_cnt::str, percent of hands::str
+        :combos_range: poker Range format of current combos
         """
+        sender = self.lbl_cnt_combos
 
         combos_pattern = '\d* combos'
         percent_pattern = '\d*\.{,1}\d* %'
         
-        combos_text = re.findall(combos_pattern, self.lbl_cnt_combos.text())[0]
-        percent_text = re.findall(percent_pattern, self.lbl_cnt_combos.text())[0]
+        combos_text = re.findall(combos_pattern, sender.text())[0]
+        percent_text = re.findall(percent_pattern, sender.text())[0]
 
-        # old_combos_cnt = int(combos_text.split()[0])
         new_combos_cnt = 0
-
-        # old_percent_cnt = int(percent_text.split()[0])
 
         combos = [str(i) for i in combos_range.hands]
         for hand in combos:
@@ -111,8 +108,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
             else:
                 new_combos_cnt += 6
         
-        new_text = self.lbl_cnt_combos.text().replace(combos_text, str(new_combos_cnt) + ' combos').replace(percent_text, str(round(len(combos)/ len(list(Hand))* 100, 1)) + ' %')
-        self.lbl_cnt_combos.setText(new_text)
+        new_text = sender.text().replace(combos_text, str(new_combos_cnt) + ' combos').replace(percent_text, str(round(len(combos)/ len(list(Hand))* 100, 1)) + ' %')
+        sender.setText(new_text)
 
     # def eventFilter(self, source, event):
     #     """
@@ -164,7 +161,10 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         current_range = Range(self.tEdit_range.toPlainText())
         self.update_combo_label(current_range) 
 
-    def range_by_textedit(self):
+    def tEditTextChangeEvent(self):
+        """
+        Update all widgets when you change tEdit Plain Text
+        """
         text = self.tEdit_range.toPlainText()
         try:
             r_text = Range(text)
