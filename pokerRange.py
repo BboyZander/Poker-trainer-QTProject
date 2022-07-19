@@ -35,11 +35,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.range_listWidget.installEventFilter(self)
         self.range_listWidget.currentRowChanged.connect(self.display_range_by_item)
 
-        self.tEdit_range.installEventFilter(self)
-        self.gridLayout.installEventFilter(self)
-
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-            button.clicked.connect(self.rangeButtonClicked)
+                button.clicked.connect(lambda: self.rangeButtonClicked())
 
     
     def add_functions(self):
@@ -60,14 +57,45 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.btn_suited.clicked.connect(lambda: self.buttons_range(self.btn_suited.text()))
         self.btn_clear.clicked.connect(self.clear_label)
 
-
         self.tEdit_range.textChanged.connect(self.tEditTextChangeEvent)
 
-    def rangeButtonClicked(self):
+        self.checkBox_hoverMode.stateChanged.connect(self.method)
+
+    def eventFilter(self, obj, event):
+        """
+        Contains custom events
+        """
+        if event.type() == QEvent.Type.HoverEnter:
+            sender = obj
+            if type(sender) == QtWidgets.QPushButton:
+                sender.nextCheckState()
+                self.rangeButtonClicked(sender)
+
+
+        elif event.type() == QEvent.Type.HoverMove:
+            pass
+        elif event.type() == QEvent.Type.HoverLeave:
+            pass
+        return super().eventFilter(obj, event)
+
+    def method(self):
+        sender = self.sender()
+        if sender.isChecked():
+            for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+                button.setAttribute(Qt.WidgetAttribute.WA_Hover)
+                button.installEventFilter(self)
+        else:
+            for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+                button.removeEventFilter(self)
+
+    def rangeButtonClicked(self, obj = None):
         """
         Change check status for button and update textEdit, label with combos
         """
-        sender = self.sender()
+        if obj:
+            sender = obj
+        else:
+            sender = self.sender()
 
         if sender.isChecked():
             new_range = self.tEdit_range.toPlainText() + ' ' + sender.text()
@@ -109,29 +137,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 new_combos_cnt += 6
         
         new_text = sender.text().replace(combos_text, str(new_combos_cnt) + ' combos').replace(percent_text, str(round(len(combos)/ len(list(Hand))* 100, 1)) + ' %')
-        sender.setText(new_text)
-
-    # def eventFilter(self, source, event):
-    #     """
-    #     All keyboard actions
-    #     """
-    #     # right click mouse action for listWidget
-    #     if (event.type() == QtCore.QEvent.ContextMenu and source is self.range_listWidget):
-    #         menu = QtWidgets.QMenu()
-    #         menu.addAction('Open Window')
-    #         if menu.exec_(event.globalPos()):
-    #             item = source.itemAt(event.pos())
-    #             print(item.text())
-    #         return True
-    #     # keyboard enter action for text edit
-    #     if event.type() == QtCore.QEvent.KeyPress and source is self.tEdit_range:
-    #         if event.key() == QtCore.Qt.Key_Return and self.tEdit_range.hasFocus():
-    #             print(dir(event))
-    #             print('Enter pressed')
-
-
-    #     return super(Ui_MainWindow, self).eventFilter(source, event)
-
+        sender.setText(new_text)    
 
     def buttons_range(self, button_text):
         """
