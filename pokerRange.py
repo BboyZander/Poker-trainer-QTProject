@@ -90,7 +90,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
     def rangeButtonClicked(self, obj = None):
         """
-        Change check status for button and update textEdit, label with combos
+        Change check status for button and update textEdit, label with combos 
         """
         if obj:
             sender = obj
