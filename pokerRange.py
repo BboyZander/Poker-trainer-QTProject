@@ -367,32 +367,40 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         except AttributeError:
             pass
 
-    # TODO: запретить вложенность дальше второго уровня при добавлении рейнджа
     def treeWidget_buttons(self, btn_name):
+        """
+        Contains all buttons actions with QTreeWidget
+        """
         
         widget = self.treeWidget_range
 
         if btn_name == 'Add Range':
-
-            current_item = widget.currentItem()
-            category_name = self.textEdit_name.toPlainText()
-
-            if category_name == '':
-                name = str(current_item.childCount())
-            else:
-                name = category_name
-
-            childWidget = QtWidgets.QTreeWidgetItem(current_item)
-            childWidget.setText(0, name)
-            current_item.addChild(childWidget)
+            try:
+                selected_item = widget.currentItem()
+                parent = selected_item.parent()
+                if not parent:
+                    current_child_lvl_items = [selected_item.child(i).text(0) for i in range(selected_item.childCount())]
 
 
+                    category_name = self.textEdit_name.toPlainText()
 
+                    if category_name == '':
+                        name = str(selected_item.childCount())
+                    else:
+                        name = category_name
+                    if name not in current_child_lvl_items:
+                        childWidget = QtWidgets.QTreeWidgetItem(selected_item)
+                        childWidget.setText(0, name)
+                        selected_item.addChild(childWidget)
 
-            
-            print('cur item: ', widget.currentItem())
+            except Exception:
+                msgbox = QMessageBox()
+                msgbox.setWindowTitle('Warning message')
+                msgbox.setText('Please, select category')
+                msgbox.setIcon(QMessageBox.Icon.Warning)
 
-            print('btn_addRange clicked')
+                msgbox.setStandardButtons(QMessageBox.StandardButton.Ok)
+                msgbox.exec()
 
         elif btn_name == 'Add Category':
             current_top_lvl_items = [widget.topLevelItem(i).text(0) for i in range(widget.topLevelItemCount())]
