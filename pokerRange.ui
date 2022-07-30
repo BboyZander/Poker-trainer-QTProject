@@ -7,26 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>1195</width>
-    <height>737</height>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Poker range calculator</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btn_connect">
-    <property name="geometry">
-     <rect>
-      <x>36</x>
-      <y>596</y>
-      <width>141</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RangeInfo (tmp)</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
@@ -5839,21 +5826,11 @@
      </item>
     </layout>
    </widget>
-   <widget class="QListWidget" name="range_listWidget">
-    <property name="geometry">
-     <rect>
-      <x>926</x>
-      <y>34</y>
-      <width>151</width>
-      <height>511</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit_name">
+   <widget class="QTextEdit" name="tEdit_name">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>484</y>
+      <y>540</y>
       <width>195</width>
       <height>31</height>
      </rect>
@@ -5869,7 +5846,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>520</y>
+      <y>576</y>
       <width>95</width>
       <height>35</height>
      </rect>
@@ -5882,7 +5859,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>552</y>
+      <y>608</y>
       <width>95</width>
       <height>35</height>
      </rect>
@@ -6025,7 +6002,7 @@
       <number>0</number>
      </property>
      <property name="text">
-      <string>0 combos (0 % of hands) in preflop range</string>
+      <string>0 combos (0.0 % of hands) in preflop range</string>
      </property>
      <property name="scaledContents">
       <bool>false</bool>
@@ -6047,7 +6024,7 @@
       <x>20</x>
       <y>18</y>
       <width>195</width>
-      <height>457</height>
+      <height>507</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -6090,7 +6067,7 @@
     <property name="geometry">
      <rect>
       <x>120</x>
-      <y>520</y>
+      <y>576</y>
       <width>95</width>
       <height>35</height>
      </rect>
@@ -6103,7 +6080,7 @@
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>552</y>
+      <y>608</y>
       <width>95</width>
       <height>35</height>
      </rect>
@@ -6116,6 +6093,19 @@
     <property name="geometry">
      <rect>
       <x>222</x>
+      <y>4</y>
+      <width>3</width>
+      <height>650</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>764</x>
       <y>4</y>
       <width>3</width>
       <height>650</height>
@@ -6252,7 +6242,6 @@
   <tabstop>b88</tabstop>
   <tabstop>J3s</tabstop>
   <tabstop>b64o</tabstop>
-  <tabstop>range_listWidget</tabstop>
   <tabstop>b43s</tabstop>
   <tabstop>T8o</tabstop>
   <tabstop>b54o</tabstop>
@@ -6338,8 +6327,7 @@
   <tabstop>b82s</tabstop>
   <tabstop>T6s</tabstop>
   <tabstop>K9o</tabstop>
-  <tabstop>btn_connect</tabstop>
-  <tabstop>textEdit_name</tabstop>
+  <tabstop>tEdit_name</tabstop>
   <tabstop>btn_addRange</tabstop>
   <tabstop>btn_Delete</tabstop>
   <tabstop>btn_allrange</tabstop>
