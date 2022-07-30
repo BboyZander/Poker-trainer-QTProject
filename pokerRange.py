@@ -228,41 +228,39 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                 for i in range(len(df.columns)):
                     df.iloc[:, i] = df.iloc[:, i].astype('str')
                 
+                current_top_lvl_items = [twidget.topLevelItem(i).text(0) for i in range(twidget.topLevelItemCount())]
+
                 for group in df.iloc[:,0].unique():
-                    top_item = QtWidgets.QTreeWidgetItem([group])
                     tmp_df = df[df.iloc[:,0] == group]
-                    tmp_dict = {}
-                    for cat in tmp_df.iloc[:, 1].values:
-                        child_item = QtWidgets.QTreeWidgetItem([cat])
-                        top_item.addChild(child_item)
-                        tmp_dict[cat] = Range(tmp_df[tmp_df.iloc[:,1] == cat].iloc[:,2].values[0])
-                    
-                    self.dict_range[group] = tmp_dict
-                    twidget.addTopLevelItem(top_item)
+                    if group not in current_top_lvl_items:
+                        top_item = QtWidgets.QTreeWidgetItem([group])
+                        tmp_dict = {}
+                        for cat in tmp_df.iloc[:, 1].values:
+                            child_item = QtWidgets.QTreeWidgetItem([cat])
+                            top_item.addChild(child_item)
+                            tmp_dict[cat] = Range(tmp_df[tmp_df.iloc[:,1] == cat].iloc[:,2].values[0])
+                        
+                        self.dict_range[group] = tmp_dict
+                        twidget.addTopLevelItem(top_item)
+                    else:
+                        top_item = twidget.topLevelItem(current_top_lvl_items.index(group))
+                        current_child_lvl_items = [top_item.child(i).text(0) for i in range(top_item.childCount())]
 
-                
-                # for k,v in zip(df.position.values, df.range.values):
-                #     self.dict_range [k] = v
+                        tmp_dict = {k: v for k,v in self.dict_range[group].items()}
 
-                # cnt_current_items = self.range_listWidget.count()
-                # if cnt_current_items == 0:
-                #     self.range_listWidget.addItems(df.position.values)
-                # else: 
-                #     current_items = [self.range_listWidget.item(i).text() for i in range(self.range_listWidget.count())]
-                #     want_to_load_items = df.position.values
+                        for cat in tmp_df.iloc[:, 1].values:
+                            if cat not in current_child_lvl_items:
+                                child_item = QtWidgets.QTreeWidgetItem([cat])
+                                tmp_dict[cat] = Range(tmp_df[tmp_df.iloc[:,1] == cat].iloc[:,2].values[0])
 
-                #     difference = list(set(want_to_load_items) - set(current_items))
-                #     self.range_listWidget.addItems(difference)
+                            else:
+                                new_name = cat + '_' + str(len(current_child_lvl_items))
+                                child_item = QtWidgets.QTreeWidgetItem([new_name])
+                                tmp_dict[new_name] = Range(tmp_df[tmp_df.iloc[:,1] == cat].iloc[:,2].values[0])
 
+                            top_item.addChild(child_item)
 
-                twidget.setCurrentItem(top_item)
-
-                # range_list = [str(hand) for hand in Range(df.range.values[0]).hands]
-                # for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-                #     if button.text() in range_list:
-                #         button.setChecked(True)
-                #     else:
-                #         button.setChecked(False)
+                        self.dict_range[group] = tmp_dict   
 
                 self.statusBar().showMessage('Range loaded')    
             except FileNotFoundError:
