@@ -213,32 +213,56 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         """
         Actions for every item in the menu
         """
+        twidget = self.treeWidget_range
+
         if menu_btn == 'Load':
+
             fname = QFileDialog.getOpenFileName(self, "Open Excel File", "", self.tr("Excel files (*.xlsx *.xls *.xml)"))[0]
             try:
-                df = pd.read_excel(fname, dtype={'position': 'str'})
-                for k,v in zip(df.position.values, df.range.values):
-                    self.dict_range [k] = v
+                df = pd.read_excel(fname, header=None)
+                try:
+                    Range(df.iloc[0, 2])
+                except ValueError:
+                    df = pd.read_excel(fname)
 
-                cnt_current_items = self.range_listWidget.count()
-                if cnt_current_items == 0:
-                    self.range_listWidget.addItems(df.position.values)
-                else: 
-                    current_items = [self.range_listWidget.item(i).text() for i in range(self.range_listWidget.count())]
-                    want_to_load_items = df.position.values
+                for i in range(len(df.columns)):
+                    df.iloc[:, i] = df.iloc[:, i].astype('str')
+                
+                for group in df.iloc[:,0].unique():
+                    top_item = QtWidgets.QTreeWidgetItem([group])
+                    tmp_df = df[df.iloc[:,0] == group]
+                    tmp_dict = {}
+                    for cat in tmp_df.iloc[:, 1].values:
+                        child_item = QtWidgets.QTreeWidgetItem([cat])
+                        top_item.addChild(child_item)
+                        tmp_dict[cat] = Range(tmp_df[tmp_df.iloc[:,1] == cat].iloc[:,2].values[0])
+                    
+                    self.dict_range[group] = tmp_dict
+                    twidget.addTopLevelItem(top_item)
 
-                    difference = list(set(want_to_load_items) - set(current_items))
-                    self.range_listWidget.addItems(difference)
+                
+                # for k,v in zip(df.position.values, df.range.values):
+                #     self.dict_range [k] = v
+
+                # cnt_current_items = self.range_listWidget.count()
+                # if cnt_current_items == 0:
+                #     self.range_listWidget.addItems(df.position.values)
+                # else: 
+                #     current_items = [self.range_listWidget.item(i).text() for i in range(self.range_listWidget.count())]
+                #     want_to_load_items = df.position.values
+
+                #     difference = list(set(want_to_load_items) - set(current_items))
+                #     self.range_listWidget.addItems(difference)
 
 
-                self.range_listWidget.setCurrentRow(0)
+                twidget.setCurrentItem(top_item)
 
-                range_list = [str(hand) for hand in Range(df.range.values[0]).hands]
-                for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-                    if button.text() in range_list:
-                        button.setChecked(True)
-                    else:
-                        button.setChecked(False)
+                # range_list = [str(hand) for hand in Range(df.range.values[0]).hands]
+                # for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+                #     if button.text() in range_list:
+                #         button.setChecked(True)
+                #     else:
+                #         button.setChecked(False)
 
                 self.statusBar().showMessage('Range loaded')    
             except FileNotFoundError:
@@ -246,7 +270,6 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         
         if menu_btn == 'Save':
             
-            twidget = self.treeWidget_range
             try:
                 if twidget.topLevelItemCount() == 0:
                     if self.tEdit_range.toPlainText() == '':
@@ -289,6 +312,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         Connection between QListWidget item and buttons. Display choosen range 
         """
         widget = self.treeWidget_range
+        
 
         try:
             item = widget.currentItem()
@@ -311,6 +335,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
             
         except AttributeError:
+            print('1')
             pass
     
     def clear_label(self):
@@ -428,6 +453,8 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
                     self.dict_range.pop(item.text(0))
             except Exception:
                 pass
+
+
     # Попытки сделать treeWidgetItem is Editable с последующей постпроверкой ... Но что-то работает херово 
     # def rename_value(self):
     #     item = self.treeWidget_range.currentItem()
