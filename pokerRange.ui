@@ -6,31 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1111</width>
-    <height>717</height>
+    <width>1195</width>
+    <height>687</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Poker range calculator</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btn_connect">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>640</y>
-      <width>141</width>
-      <height>32</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>RangeInfo (tmp)</string>
-    </property>
-   </widget>
    <widget class="QWidget" name="gridLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>200</x>
+      <x>232</x>
       <y>10</y>
       <width>531</width>
       <height>531</height>
@@ -4612,6 +4599,9 @@
      </item>
      <item row="8" column="8">
       <widget class="QPushButton" name="b66">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="sizePolicy">
         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
          <horstretch>0</horstretch>
@@ -5836,81 +5826,46 @@
      </item>
     </layout>
    </widget>
-   <widget class="QListWidget" name="range_listWidget">
+   <widget class="QTextEdit" name="tEdit_name">
     <property name="geometry">
      <rect>
-      <x>30</x>
-      <y>20</y>
-      <width>151</width>
-      <height>511</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit">
-    <property name="geometry">
-     <rect>
-      <x>30</x>
+      <x>20</x>
       <y>540</y>
-      <width>151</width>
+      <width>195</width>
       <height>31</height>
      </rect>
     </property>
     <property name="autoFillBackground">
      <bool>false</bool>
     </property>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
    </widget>
-   <widget class="QPushButton" name="btn_saveRange">
+   <widget class="QPushButton" name="btn_addRange">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>580</y>
-      <width>111</width>
-      <height>32</height>
+      <x>20</x>
+      <y>576</y>
+      <width>95</width>
+      <height>35</height>
      </rect>
     </property>
     <property name="text">
-     <string>Save Range</string>
+     <string>Add Range</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_delRange">
+   <widget class="QPushButton" name="btn_Delete">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>610</y>
-      <width>111</width>
-      <height>32</height>
+      <x>120</x>
+      <y>608</y>
+      <width>95</width>
+      <height>35</height>
      </rect>
     </property>
     <property name="text">
-     <string>Delete Range</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lbl_cnt_combos">
-    <property name="geometry">
-     <rect>
-      <x>228</x>
-      <y>535</y>
-      <width>343</width>
-      <height>16</height>
-     </rect>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Plain</enum>
-    </property>
-    <property name="lineWidth">
-     <number>0</number>
-    </property>
-    <property name="text">
-     <string>0 combos (0 % of hands) in preflop range</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="alignment">
-     <set>Qt::AlignCenter</set>
-    </property>
-    <property name="margin">
-     <number>0</number>
+     <string>Delete</string>
     </property>
    </widget>
    <widget class="QFrame" name="frame">
@@ -5919,10 +5874,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>196</x>
-      <y>554</y>
+      <x>228</x>
+      <y>534</y>
       <width>533</width>
-      <height>91</height>
+      <height>113</height>
      </rect>
     </property>
     <property name="focusPolicy">
@@ -5938,7 +5893,7 @@
      <property name="geometry">
       <rect>
        <x>6</x>
-       <y>6</y>
+       <y>28</y>
        <width>100</width>
        <height>40</height>
       </rect>
@@ -5954,7 +5909,7 @@
      <property name="geometry">
       <rect>
        <x>111</x>
-       <y>6</y>
+       <y>28</y>
        <width>100</width>
        <height>40</height>
       </rect>
@@ -5967,7 +5922,7 @@
      <property name="geometry">
       <rect>
        <x>216</x>
-       <y>6</y>
+       <y>28</y>
        <width>100</width>
        <height>40</height>
       </rect>
@@ -5980,7 +5935,7 @@
      <property name="geometry">
       <rect>
        <x>321</x>
-       <y>6</y>
+       <y>28</y>
        <width>100</width>
        <height>40</height>
       </rect>
@@ -5993,7 +5948,7 @@
      <property name="geometry">
       <rect>
        <x>426</x>
-       <y>6</y>
+       <y>28</y>
        <width>100</width>
        <height>40</height>
       </rect>
@@ -6006,7 +5961,7 @@
      <property name="geometry">
       <rect>
        <x>6</x>
-       <y>52</y>
+       <y>74</y>
        <width>520</width>
        <height>31</height>
       </rect>
@@ -6015,21 +5970,149 @@
       <bool>false</bool>
      </property>
     </widget>
+    <widget class="QCheckBox" name="checkBox_hoverMode">
+     <property name="geometry">
+      <rect>
+       <x>428</x>
+       <y>6</y>
+       <width>99</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="toolTip">
+      <string/>
+     </property>
+     <property name="text">
+      <string>Hover Mode</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="lbl_cnt_combos">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>8</y>
+       <width>287</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Plain</enum>
+     </property>
+     <property name="lineWidth">
+      <number>0</number>
+     </property>
+     <property name="text">
+      <string>0 combos (0.0 % of hands) in preflop range</string>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="margin">
+      <number>0</number>
+     </property>
+     <property name="buddy">
+      <cstring>checkBox_hoverMode</cstring>
+     </property>
+    </widget>
    </widget>
-   <widget class="QCheckBox" name="checkBox_hoverMode">
+   <widget class="QTreeWidget" name="treeWidget_range">
     <property name="geometry">
      <rect>
-      <x>604</x>
-      <y>535</y>
-      <width>99</width>
-      <height>20</height>
+      <x>20</x>
+      <y>18</y>
+      <width>195</width>
+      <height>507</height>
      </rect>
     </property>
-    <property name="toolTip">
-     <string/>
+    <property name="frameShape">
+     <enum>QFrame::Panel</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::AllEditTriggers</set>
+    </property>
+    <property name="uniformRowHeights">
+     <bool>false</bool>
+    </property>
+    <property name="sortingEnabled">
+     <bool>false</bool>
+    </property>
+    <property name="animated">
+     <bool>false</bool>
+    </property>
+    <property name="allColumnsShowFocus">
+     <bool>false</bool>
+    </property>
+    <property name="wordWrap">
+     <bool>false</bool>
+    </property>
+    <property name="headerHidden">
+     <bool>true</bool>
+    </property>
+    <property name="columnCount">
+     <number>1</number>
+    </property>
+    <column>
+     <property name="text">
+      <string>col</string>
+     </property>
+    </column>
+   </widget>
+   <widget class="QPushButton" name="btn_addCategory">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>576</y>
+      <width>95</width>
+      <height>35</height>
+     </rect>
     </property>
     <property name="text">
-     <string>Hover Mode</string>
+     <string>Add Category</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_Rename">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>608</y>
+      <width>95</width>
+      <height>35</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Rename</string>
+    </property>
+   </widget>
+   <widget class="Line" name="line">
+    <property name="geometry">
+     <rect>
+      <x>222</x>
+      <y>4</y>
+      <width>3</width>
+      <height>650</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="Line" name="line_2">
+    <property name="geometry">
+     <rect>
+      <x>764</x>
+      <y>4</y>
+      <width>3</width>
+      <height>650</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
     </property>
    </widget>
   </widget>
@@ -6038,7 +6121,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1111</width>
+     <width>1195</width>
      <height>24</height>
     </rect>
    </property>
@@ -6074,6 +6157,190 @@
    </property>
   </action>
  </widget>
+ <tabstops>
+  <tabstop>AA</tabstop>
+  <tabstop>AKs</tabstop>
+  <tabstop>AQs</tabstop>
+  <tabstop>AJs</tabstop>
+  <tabstop>ATs</tabstop>
+  <tabstop>A9s</tabstop>
+  <tabstop>A8s</tabstop>
+  <tabstop>A7s</tabstop>
+  <tabstop>A6s</tabstop>
+  <tabstop>A5s</tabstop>
+  <tabstop>A4s</tabstop>
+  <tabstop>A3s</tabstop>
+  <tabstop>A2s</tabstop>
+  <tabstop>AKo</tabstop>
+  <tabstop>KK</tabstop>
+  <tabstop>KQs</tabstop>
+  <tabstop>KJs</tabstop>
+  <tabstop>KTs</tabstop>
+  <tabstop>K9s</tabstop>
+  <tabstop>K8s</tabstop>
+  <tabstop>K7s</tabstop>
+  <tabstop>K6s</tabstop>
+  <tabstop>K5s</tabstop>
+  <tabstop>K4s</tabstop>
+  <tabstop>K3s</tabstop>
+  <tabstop>K2s</tabstop>
+  <tabstop>AQo</tabstop>
+  <tabstop>KQo</tabstop>
+  <tabstop>QQ</tabstop>
+  <tabstop>QJs</tabstop>
+  <tabstop>QTs</tabstop>
+  <tabstop>Q9s</tabstop>
+  <tabstop>Q8s</tabstop>
+  <tabstop>Q7s</tabstop>
+  <tabstop>Q6s</tabstop>
+  <tabstop>T2s</tabstop>
+  <tabstop>b42s</tabstop>
+  <tabstop>Q5s</tabstop>
+  <tabstop>Q4s</tabstop>
+  <tabstop>Q3s</tabstop>
+  <tabstop>Q2s</tabstop>
+  <tabstop>A9o</tabstop>
+  <tabstop>Q9o</tabstop>
+  <tabstop>A5o</tabstop>
+  <tabstop>J2o</tabstop>
+  <tabstop>J6o</tabstop>
+  <tabstop>J5o</tabstop>
+  <tabstop>b75o</tabstop>
+  <tabstop>b65s</tabstop>
+  <tabstop>b32s</tabstop>
+  <tabstop>Q2o</tabstop>
+  <tabstop>b74s</tabstop>
+  <tabstop>b62s</tabstop>
+  <tabstop>b96o</tabstop>
+  <tabstop>b86o</tabstop>
+  <tabstop>b85o</tabstop>
+  <tabstop>TT</tabstop>
+  <tabstop>A2o</tabstop>
+  <tabstop>K2o</tabstop>
+  <tabstop>b63s</tabstop>
+  <tabstop>b52s</tabstop>
+  <tabstop>T2o</tabstop>
+  <tabstop>b43o</tabstop>
+  <tabstop>b64s</tabstop>
+  <tabstop>b83o</tabstop>
+  <tabstop>b53o</tabstop>
+  <tabstop>b76o</tabstop>
+  <tabstop>T3o</tabstop>
+  <tabstop>A6o</tabstop>
+  <tabstop>b65o</tabstop>
+  <tabstop>A4o</tabstop>
+  <tabstop>J5s</tabstop>
+  <tabstop>J7s</tabstop>
+  <tabstop>JTo</tabstop>
+  <tabstop>J2s</tabstop>
+  <tabstop>J4s</tabstop>
+  <tabstop>QTo</tabstop>
+  <tabstop>ATo</tabstop>
+  <tabstop>KTo</tabstop>
+  <tabstop>b44</tabstop>
+  <tabstop>J6s</tabstop>
+  <tabstop>b88</tabstop>
+  <tabstop>J3s</tabstop>
+  <tabstop>b64o</tabstop>
+  <tabstop>b43s</tabstop>
+  <tabstop>T8o</tabstop>
+  <tabstop>b54o</tabstop>
+  <tabstop>Q4o</tabstop>
+  <tabstop>J4o</tabstop>
+  <tabstop>b32o</tabstop>
+  <tabstop>T4o</tabstop>
+  <tabstop>b99</tabstop>
+  <tabstop>b74o</tabstop>
+  <tabstop>b94o</tabstop>
+  <tabstop>J8s</tabstop>
+  <tabstop>AJo</tabstop>
+  <tabstop>b95s</tabstop>
+  <tabstop>T7s</tabstop>
+  <tabstop>T8s</tabstop>
+  <tabstop>b92s</tabstop>
+  <tabstop>b93s</tabstop>
+  <tabstop>JJ</tabstop>
+  <tabstop>JTs</tabstop>
+  <tabstop>QJo</tabstop>
+  <tabstop>KJo</tabstop>
+  <tabstop>J9s</tabstop>
+  <tabstop>T4s</tabstop>
+  <tabstop>b85s</tabstop>
+  <tabstop>T3s</tabstop>
+  <tabstop>b94s</tabstop>
+  <tabstop>b96s</tabstop>
+  <tabstop>K3o</tabstop>
+  <tabstop>b42o</tabstop>
+  <tabstop>b52o</tabstop>
+  <tabstop>T9o</tabstop>
+  <tabstop>T5s</tabstop>
+  <tabstop>b97s</tabstop>
+  <tabstop>J9o</tabstop>
+  <tabstop>A3o</tabstop>
+  <tabstop>T9s</tabstop>
+  <tabstop>b93o</tabstop>
+  <tabstop>b72s</tabstop>
+  <tabstop>b73o</tabstop>
+  <tabstop>b97o</tabstop>
+  <tabstop>J7o</tabstop>
+  <tabstop>b77</tabstop>
+  <tabstop>T7o</tabstop>
+  <tabstop>b73s</tabstop>
+  <tabstop>K6o</tabstop>
+  <tabstop>T6o</tabstop>
+  <tabstop>Q5o</tabstop>
+  <tabstop>b95o</tabstop>
+  <tabstop>b63o</tabstop>
+  <tabstop>b66</tabstop>
+  <tabstop>b53s</tabstop>
+  <tabstop>b55</tabstop>
+  <tabstop>b82o</tabstop>
+  <tabstop>K5o</tabstop>
+  <tabstop>K4o</tabstop>
+  <tabstop>b76s</tabstop>
+  <tabstop>Q7o</tabstop>
+  <tabstop>T5o</tabstop>
+  <tabstop>b75s</tabstop>
+  <tabstop>b92o</tabstop>
+  <tabstop>b22</tabstop>
+  <tabstop>b54s</tabstop>
+  <tabstop>b33</tabstop>
+  <tabstop>Q6o</tabstop>
+  <tabstop>b87o</tabstop>
+  <tabstop>b86s</tabstop>
+  <tabstop>J8o</tabstop>
+  <tabstop>A8o</tabstop>
+  <tabstop>b83s</tabstop>
+  <tabstop>b98o</tabstop>
+  <tabstop>Q3o</tabstop>
+  <tabstop>A7o</tabstop>
+  <tabstop>b84s</tabstop>
+  <tabstop>b84o</tabstop>
+  <tabstop>Q8o</tabstop>
+  <tabstop>K7o</tabstop>
+  <tabstop>K8o</tabstop>
+  <tabstop>b87s</tabstop>
+  <tabstop>J3o</tabstop>
+  <tabstop>b62o</tabstop>
+  <tabstop>b72o</tabstop>
+  <tabstop>b98s</tabstop>
+  <tabstop>b82s</tabstop>
+  <tabstop>T6s</tabstop>
+  <tabstop>K9o</tabstop>
+  <tabstop>tEdit_name</tabstop>
+  <tabstop>btn_addRange</tabstop>
+  <tabstop>btn_Delete</tabstop>
+  <tabstop>btn_allrange</tabstop>
+  <tabstop>btn_pocket</tabstop>
+  <tabstop>btn_broadway</tabstop>
+  <tabstop>btn_suited</tabstop>
+  <tabstop>btn_clear</tabstop>
+  <tabstop>tEdit_range</tabstop>
+  <tabstop>checkBox_hoverMode</tabstop>
+  <tabstop>treeWidget_range</tabstop>
+  <tabstop>btn_addCategory</tabstop>
+  <tabstop>btn_Rename</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <designerdata>
