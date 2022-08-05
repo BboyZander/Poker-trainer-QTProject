@@ -38,7 +38,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.eventfilter_elements()
         self.treeWidget_range.itemClicked.connect(self.display_range_by_item)
-
+        
         # self.treeWidget_range.itemDoubleClicked.connect(self.rename_value)
         # self.treeWidget_range.itemChanged.connect(self.checkName, Qt.ConnectionType.QueuedConnection)
 
@@ -50,6 +50,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         """
 
         self.lbl_cnt_combos.installEventFilter(self)
+  
 
     
     def buttons_click_actions(self):
