@@ -6344,8 +6344,8 @@ border-bottom: None
      <rect>
       <x>772</x>
       <y>8</y>
-      <width>215</width>
-      <height>609</height>
+      <width>165</width>
+      <height>571</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -6355,12 +6355,27 @@ border-bottom: None
      <enum>QFrame::Raised</enum>
     </property>
     <layout class="QVBoxLayout" name="verticalLayout">
+     <property name="spacing">
+      <number>1</number>
+     </property>
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
      <item>
       <widget class="QFrame" name="frame_3">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>40</height>
+         <height>30</height>
         </size>
        </property>
        <property name="frameShape">

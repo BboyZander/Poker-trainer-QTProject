@@ -24,6 +24,8 @@ from poker import Range
 from poker.hand import Hand
 from utils import *
 
+from table_cards import table_cards
+
 from windowClasses import ExtraWindow_label
 
 
@@ -38,7 +40,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         self.eventfilter_elements()
         self.treeWidget_range.itemClicked.connect(self.display_range_by_item)
-        
+
         # self.treeWidget_range.itemDoubleClicked.connect(self.rename_value)
         # self.treeWidget_range.itemChanged.connect(self.checkName, Qt.ConnectionType.QueuedConnection)
 
@@ -73,6 +75,9 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             button.clicked.connect(lambda: self.rangeButtonClicked())
+        
+        for button in self.frame_4.findChildren(QtWidgets.QAbstractButton):
+            button.clicked.connect(lambda: table_cards(self.sender()))
 
         self.btn_addRange.clicked.connect(lambda: self.treeWidget_buttons(self.btn_addRange.text()))
         self.btn_Delete.clicked.connect(lambda: self.treeWidget_buttons(self.btn_Delete.text()))
