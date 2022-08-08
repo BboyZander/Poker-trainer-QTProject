@@ -1,9 +1,7 @@
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6 import QtWidgets, uic
 
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
-from matplotlib.pyplot import table
 
 import numpy as np
 import pandas as pd
@@ -17,13 +15,19 @@ from windowClasses import ExtraWindow_label
 import table_items, top_menu, range_items, tree_widget_items
 
 
-class Ui_MainWindow(tree_widget_items.TreeWidgetItems, table_items.TableItems, top_menu.TopMenu, range_items.RangeItems, QtWidgets.QMainWindow):
-
+class Ui_MainWindow(
+    tree_widget_items.TreeWidgetItems,
+    range_items.RangeItems,
+    table_items.TableItems,
+    top_menu.TopMenu,
+    QtWidgets.QMainWindow,
+):
     def __init__(self):
         super().__init__()
         uic.loadUi("pokerRange.ui", self)
 
         self.dict_range = {}
+        self.dict_table = {"Flop": [], "Turn": [], "River": []}
 
         self.buttons_click_actions()
 
@@ -33,27 +37,39 @@ class Ui_MainWindow(tree_widget_items.TreeWidgetItems, table_items.TableItems, t
         # self.treeWidget_range.itemDoubleClicked.connect(self.rename_value)
         # self.treeWidget_range.itemChanged.connect(self.checkName, Qt.ConnectionType.QueuedConnection)
 
-
-
     def eventfilter_elements(self):
         """
         Contains all elements which uses alternative event filter
         """
 
         self.lbl_cnt_combos.installEventFilter(self)
-    
+
     def buttons_click_actions(self):
         """
         Contains all connections between buttons and actions
         """
-        self.actionLoad.triggered.connect(lambda: self.menu_elements_action(self.actionLoad.text()))
-        self.actionSave.triggered.connect(lambda: self.menu_elements_action(self.actionSave.text()))
-        self.actionClose.triggered.connect(lambda: self.menu_elements_action(self.actionClose.text()))
+        self.actionLoad.triggered.connect(
+            lambda: self.menu_elements_action(self.actionLoad.text())
+        )
+        self.actionSave.triggered.connect(
+            lambda: self.menu_elements_action(self.actionSave.text())
+        )
+        self.actionClose.triggered.connect(
+            lambda: self.menu_elements_action(self.actionClose.text())
+        )
 
-        self.btn_allrange.clicked.connect(lambda: self.buttons_range(self.btn_allrange.text()))
-        self.btn_pocket.clicked.connect(lambda: self.buttons_range(self.btn_pocket.text()))
-        self.btn_broadway.clicked.connect(lambda: self.buttons_range(self.btn_broadway.text()))
-        self.btn_suited.clicked.connect(lambda: self.buttons_range(self.btn_suited.text()))
+        self.btn_allrange.clicked.connect(
+            lambda: self.buttons_range(self.btn_allrange.text())
+        )
+        self.btn_pocket.clicked.connect(
+            lambda: self.buttons_range(self.btn_pocket.text())
+        )
+        self.btn_broadway.clicked.connect(
+            lambda: self.buttons_range(self.btn_broadway.text())
+        )
+        self.btn_suited.clicked.connect(
+            lambda: self.buttons_range(self.btn_suited.text())
+        )
         self.btn_clear.clicked.connect(self.clear_label)
 
         self.tEdit_range.textChanged.connect(self.tEditTextChangeEvent)
@@ -62,14 +78,25 @@ class Ui_MainWindow(tree_widget_items.TreeWidgetItems, table_items.TableItems, t
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             button.clicked.connect(lambda: self.rangeButtonClicked())
-        
+
         for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
             button.clicked.connect(lambda: self.tc())
 
-        self.btn_addRange.clicked.connect(lambda: self.treeWidget_buttons(self.btn_addRange.text()))
-        self.btn_Delete.clicked.connect(lambda: self.treeWidget_buttons(self.btn_Delete.text()))
-        self.btn_addCategory.clicked.connect(lambda: self.treeWidget_buttons(self.btn_addCategory.text()))
-        self.btn_Rename.clicked.connect(lambda: self.treeWidget_buttons(self.btn_Rename.text()))
+        self.btn_addRange.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_addRange.text())
+        )
+        self.btn_Delete.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_Delete.text())
+        )
+        self.btn_addCategory.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_addCategory.text())
+        )
+        self.btn_Rename.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_Rename.text())
+        )
+
+        self.btn_clear_table.clicked.connect(self.clear_table)
+        self.btn_random_table.clicked.connect(self.get_random_table)
 
     def eventFilter(self, obj, event):
         """
@@ -81,7 +108,10 @@ class Ui_MainWindow(tree_widget_items.TreeWidgetItems, table_items.TableItems, t
                 sender.nextCheckState()
                 self.rangeButtonClicked(sender)
 
-        if event.type() == QEvent.Type.MouseButtonDblClick and obj is self.lbl_cnt_combos:
+        if (
+            event.type() == QEvent.Type.MouseButtonDblClick
+            and obj is self.lbl_cnt_combos
+        ):
             ui = ExtraWindow_label(self)
             ui.show()
 
@@ -103,24 +133,25 @@ class Ui_MainWindow(tree_widget_items.TreeWidgetItems, table_items.TableItems, t
         else:
             for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
                 button.removeEventFilter(self)
-       
+
     def get_list_of_pushed_buttons(self):
         """
         Function create list of buttons which Check state is True
 
-        return: list, Range  
+        return: list, Range
         """
         list_of_pushed_button = []
 
         for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 list_of_pushed_button.append(button.text())
-        range_view_of_pushed_buttons = Range(' '.join(list_of_pushed_button))
+        range_view_of_pushed_buttons = Range(" ".join(list_of_pushed_button))
         return sorted(list_of_pushed_button), range_view_of_pushed_buttons
 
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     ui = Ui_MainWindow()
     ui.show()
