@@ -24,9 +24,10 @@ class TableItems(QtWidgets.QMainWindow):
         sender = self.sender()
         
         deck = self.table
-        deck.append(sender.text())
+
 
         if sender.isChecked():
+            deck.append(sender.text())
 
             if len(self.dict_table["Flop"]) < 3:
                 self.dict_table["Flop"].append(sender.text())
@@ -71,6 +72,8 @@ class TableItems(QtWidgets.QMainWindow):
                 self.tEditTurn.setPlainText('')
             else:
                 self.tEditRiver.setPlainText('')
+
+        self.table = deck
 
     def clear_table(self):
 
@@ -122,3 +125,5 @@ class TableItems(QtWidgets.QMainWindow):
         self.tEditFlop3.setPlainText(deck[2])
         self.tEditTurn.setPlainText(deck[3])
         self.tEditRiver.setPlainText(deck[4])
+
+        self.table = deck
