@@ -3,9 +3,6 @@ from PyQt6 import QtWidgets
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
-from utils import *
-
-
 class TreeWidgetItems(QtWidgets.QMainWindow):
     def display_range_by_item(self):
         """
@@ -70,7 +67,7 @@ class TreeWidgetItems(QtWidgets.QMainWindow):
                     self.dict_range[item.text(0)][name] = cur_range
 
             except Exception:
-                customMessageBox(
+                self.customMessageBox(
                     "Warning message", "Please, select category", "Warning"
                 )
 

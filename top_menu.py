@@ -94,7 +94,7 @@ class TopMenu(QtWidgets.QMainWindow):
             try:
                 if twidget.topLevelItemCount() == 0:
                     if self.tEdit_range.toPlainText() == "":
-                        customMessageBox(
+                        self.customMessageBox(
                             "Warning message", "Please, select range", "Warning"
                         )
                         return

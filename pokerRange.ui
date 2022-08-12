@@ -6361,7 +6361,7 @@ border-bottom: None
       <rect>
        <x>20</x>
        <y>8</y>
-       <width>287</width>
+       <width>327</width>
        <height>16</height>
       </rect>
      </property>
@@ -6583,7 +6583,7 @@ border-bottom: None
       <number>0</number>
      </property>
      <item>
-      <widget class="QFrame" name="frame_3">
+      <widget class="QFrame" name="TabletEdits">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -8910,7 +8910,7 @@ background-color: rgb(255, 89, 105);
       </widget>
      </item>
      <item>
-      <widget class="QFrame" name="frame_4">
+      <widget class="QFrame" name="TableBtns">
        <property name="maximumSize">
         <size>
          <width>16777215</width>
@@ -9018,7 +9018,7 @@ border-bottom: None
      <enum>Qt::Vertical</enum>
     </property>
    </widget>
-   <widget class="QFrame" name="frame_2">
+   <widget class="QFrame" name="HandItems">
     <property name="geometry">
      <rect>
       <x>958</x>
@@ -11238,11 +11238,111 @@ background-color: rgb(255, 89, 105);
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>../../../../Downloads/download-icon-dead-1321215618131453604_512.png</pixmap>
+      <pixmap>pictures/dead_cards.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>
      </property>
+    </widget>
+    <widget class="QFrame" name="HandBtns">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>446</y>
+       <width>127</width>
+       <height>70</height>
+      </rect>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>70</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QPushButton" name="btn_random_hand">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>2</y>
+        <width>100</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(130, 170, 90);
+border: None;
+padding-top: 5px;
+color: rgb(226, 234, 216);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+border-radius: 10px
+}
+QPushButton::hover {
+background-color: rgb(138, 181, 96);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+}
+QPushButton::pressed {
+background-color: rgb(120, 157, 83);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-top: 5px solid rgb(110, 144, 76);
+padding-top: -5px;
+border-bottom: None
+}</string>
+      </property>
+      <property name="text">
+       <string>Random</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_clear_hand">
+      <property name="geometry">
+       <rect>
+        <x>12</x>
+        <y>36</y>
+        <width>100</width>
+        <height>28</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+background-color: rgb(130, 170, 90);
+border: None;
+padding-top: 5px;
+color: rgb(226, 234, 216);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+border-radius: 10px
+}
+QPushButton::hover {
+background-color: rgb(138, 181, 96);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+}
+QPushButton::pressed {
+background-color: rgb(120, 157, 83);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-top: 5px solid rgb(110, 144, 76);
+padding-top: -5px;
+border-bottom: None
+}</string>
+      </property>
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>

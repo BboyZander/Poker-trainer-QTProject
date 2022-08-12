@@ -20,7 +20,10 @@ class TableItems(QtWidgets.QMainWindow):
         self.table = []
 
 
-    def tc(self):
+    def table_cards(self):
+        """
+        Table buttons events
+        """
         sender = self.sender()
         
         deck = self.table
@@ -40,20 +43,32 @@ class TableItems(QtWidgets.QMainWindow):
             elif len(self.dict_table["Turn"]) < 1:
                 self.dict_table["Turn"].append(sender.text())
                 self.tEditTurn.setPlainText(sender.text())
+
+                sender.setIcon(QIcon('pictures/T.png'))
+                sender.setIconSize(QSize(8,8))
             elif len(self.dict_table["River"]) < 1:
                 self.dict_table["River"].append(sender.text())
                 self.tEditRiver.setPlainText(sender.text())
+                
+                sender.setIcon(QIcon('pictures/R.png'))
+                sender.setIconSize(QSize(8,8))
 
             if len(deck) == 5:
                 for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
                     if button.text() not in deck:
                         button.setEnabled(False)
+            
+            for button in self.frameHandCards.findChildren(QtWidgets.QAbstractButton):
+                if button.text() == sender.text():
+                    button.setEnabled(False)
 
         else:
             deck.remove(sender.text())
+            sender.setIcon(QIcon())
             if len(deck) < 5:
                 for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
-                    button.setEnabled(True)
+                    if button.text() not in self.hand:
+                        button.setEnabled(True)
 
 
             for key in self.dict_table.keys():
@@ -73,9 +88,17 @@ class TableItems(QtWidgets.QMainWindow):
             else:
                 self.tEditRiver.setPlainText('')
 
+            for button in self.frameHandCards.findChildren(QtWidgets.QAbstractButton):
+                if (button.text() == sender.text()) and len(self.hand) < 2:
+                    button.setEnabled(True)
+
         self.table = deck
 
     def clear_table(self):
+        """
+        Clear table items
+        """
+
 
         for key in self.dict_table.keys():
             self.dict_table[key] = []
@@ -83,6 +106,8 @@ class TableItems(QtWidgets.QMainWindow):
         for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
             if button.isChecked():
                 button.nextCheckState()
+                button.setIcon(QIcon())
+
 
             button.setEnabled(True)
         
@@ -91,11 +116,18 @@ class TableItems(QtWidgets.QMainWindow):
         self.tEditFlop3.setPlainText('')
         self.tEditTurn.setPlainText('')
         self.tEditRiver.setPlainText('')
+        
+        if len(self.hand) < 2:
+            for button in self.frameHandCards.findChildren(QtWidgets.QAbstractButton):
+                if button.text() in self.table:
+                    button.setEnabled(True)
 
         self.table = []
 
-
     def get_random_table(self):
+        """
+        Generate random table
+        """
         deck = self.table
         dict_suits = {'♠': 's',
                       '♥': 'h',
@@ -103,9 +135,12 @@ class TableItems(QtWidgets.QMainWindow):
                       '♣': 'c'}
 
         cards = list(poker.Card)
+        cards = [str(i).replace(list(str(i))[1], dict_suits[list(str(i))[1]]) for i in cards]
+        if len(self.hand) > 0:
+            for card in self.hand:
+                cards.remove(card)
         random.shuffle(cards)
         deck = [cards.pop() for __ in range(5)]
-        deck = [str(i).replace(list(str(i))[1], dict_suits[list(str(i))[1]]) for i in deck]
 
         self.dict_table['Flop'] = deck[:3]
         self.dict_table['Turn'] = [deck[3]]
@@ -113,12 +148,21 @@ class TableItems(QtWidgets.QMainWindow):
 
         for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
             if button.text() in deck:
+                if button.text() == deck[3]:
+                    button.setIcon(QIcon('pictures/T.png'))
+                    button.setIconSize(QSize(8,8))
+                
+                if button.text() == deck[4]:
+                    button.setIcon(QIcon('pictures/R.png'))
+                    button.setIconSize(QSize(8,8))
+
                 button.setChecked(True)
                 button.setEnabled(True)
 
             else:
                 button.setChecked(False)
                 button.setEnabled(False)
+                button.setIcon(QIcon())
 
         self.tEditFlop1.setPlainText(deck[0])
         self.tEditFlop2.setPlainText(deck[1])
@@ -127,3 +171,10 @@ class TableItems(QtWidgets.QMainWindow):
         self.tEditRiver.setPlainText(deck[4])
 
         self.table = deck
+
+        if len(self.hand) < 2:
+            for button in self.frameHandCards.findChildren(QtWidgets.QAbstractButton):
+                if (button.text() in self.table):
+                    button.setEnabled(False)
+                else:
+                    button.setEnabled(True)

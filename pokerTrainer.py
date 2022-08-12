@@ -9,10 +9,9 @@ import re
 
 from poker import Range
 from poker.hand import Hand
-from utils import *
 
 from windowClasses import ExtraWindow_label
-import table_items, top_menu, range_items, tree_widget_items
+import table_items, top_menu, range_items, tree_widget_items, hand_items, utils
 
 
 class Ui_MainWindow(
@@ -20,6 +19,8 @@ class Ui_MainWindow(
     range_items.RangeItems,
     table_items.TableItems,
     top_menu.TopMenu,
+    hand_items.HandItems,
+    utils.Utils,
     QtWidgets.QMainWindow,
 ):
     def __init__(self):
@@ -29,10 +30,14 @@ class Ui_MainWindow(
         self.dict_range = {}
         self.dict_table = {"Flop": [], "Turn": [], "River": []}
 
+        self.tree_item_actions()
+        self.range_item_actions()
+        self.table_item_actions()
+        self.hand_item_actions()
+        
         self.buttons_click_actions()
 
         self.eventfilter_elements()
-        self.treeWidget_range.itemClicked.connect(self.display_range_by_item)
 
         # self.treeWidget_range.itemDoubleClicked.connect(self.rename_value)
         # self.treeWidget_range.itemChanged.connect(self.checkName, Qt.ConnectionType.QueuedConnection)
@@ -44,19 +49,27 @@ class Ui_MainWindow(
 
         self.lbl_cnt_combos.installEventFilter(self)
 
-    def buttons_click_actions(self):
-        """
-        Contains all connections between buttons and actions
-        """
-        self.actionLoad.triggered.connect(
-            lambda: self.menu_elements_action(self.actionLoad.text())
+    def tree_item_actions(self):
+
+        self.treeWidget_range.itemClicked.connect(self.display_range_by_item)
+
+        self.btn_addRange.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_addRange.text())
         )
-        self.actionSave.triggered.connect(
-            lambda: self.menu_elements_action(self.actionSave.text())
+        self.btn_Delete.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_Delete.text())
         )
-        self.actionClose.triggered.connect(
-            lambda: self.menu_elements_action(self.actionClose.text())
+        self.btn_addCategory.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_addCategory.text())
         )
+        self.btn_Rename.clicked.connect(
+            lambda: self.treeWidget_buttons(self.btn_Rename.text())
+        )
+
+    def range_item_actions(self):
+        
+        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
+            button.clicked.connect(lambda: self.rangeButtonClicked())
 
         self.btn_allrange.clicked.connect(
             lambda: self.buttons_range(self.btn_allrange.text())
@@ -76,28 +89,40 @@ class Ui_MainWindow(
 
         self.checkBox_hoverMode.stateChanged.connect(self.Hover_method)
 
-        for button in self.gridLayoutWidget.findChildren(QtWidgets.QAbstractButton):
-            button.clicked.connect(lambda: self.rangeButtonClicked())
+    def table_item_actions(self):
 
         for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
-            button.clicked.connect(lambda: self.tc())
-
-        self.btn_addRange.clicked.connect(
-            lambda: self.treeWidget_buttons(self.btn_addRange.text())
-        )
-        self.btn_Delete.clicked.connect(
-            lambda: self.treeWidget_buttons(self.btn_Delete.text())
-        )
-        self.btn_addCategory.clicked.connect(
-            lambda: self.treeWidget_buttons(self.btn_addCategory.text())
-        )
-        self.btn_Rename.clicked.connect(
-            lambda: self.treeWidget_buttons(self.btn_Rename.text())
-        )
+            button.clicked.connect(lambda: self.table_cards())
 
         self.btn_clear_table.clicked.connect(self.clear_table)
         self.btn_random_table.clicked.connect(self.get_random_table)
 
+    def hand_item_actions(self):
+
+        for button in self.frameHandCards.findChildren(QtWidgets.QAbstractButton):
+            button.clicked.connect(lambda: self.hand_cards())
+
+        self.btn_clear_hand.clicked.connect(self.clear_hand)
+        self.btn_random_hand.clicked.connect(self.get_random_hand)
+
+    
+    def buttons_click_actions(self):
+        """
+        Contains all connections between buttons and actions
+        """
+        self.actionLoad.triggered.connect(
+            lambda: self.menu_elements_action(self.actionLoad.text())
+        )
+        self.actionSave.triggered.connect(
+            lambda: self.menu_elements_action(self.actionSave.text())
+        )
+        self.actionClose.triggered.connect(
+            lambda: self.menu_elements_action(self.actionClose.text())
+        )
+
+        
+
+        
     def eventFilter(self, obj, event):
         """
         Contains custom events
