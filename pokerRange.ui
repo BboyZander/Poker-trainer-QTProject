@@ -9023,12 +9023,12 @@ border-bottom: None
      <rect>
       <x>958</x>
       <y>8</y>
-      <width>217</width>
+      <width>141</width>
       <height>635</height>
      </rect>
     </property>
     <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
+     <enum>QFrame::NoFrame</enum>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
@@ -11341,6 +11341,93 @@ border-bottom: None
       </property>
       <property name="text">
        <string>Clear</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QFrame" name="frame_2">
+     <property name="geometry">
+      <rect>
+       <x>6</x>
+       <y>516</y>
+       <width>127</width>
+       <height>119</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLabel" name="lbl_datatitle">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>16</x>
+        <y>4</y>
+        <width>93</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+        <kerning>true</kerning>
+       </font>
+      </property>
+      <property name="text">
+       <string>Data for hand:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lbl_win">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>22</x>
+        <y>30</y>
+        <width>93</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Win: 0%</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lbl_tie">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>22</x>
+        <y>48</y>
+        <width>93</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Tie: 0%</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="lbl_loose">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>22</x>
+        <y>66</y>
+        <width>99</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Lose: 0%</string>
       </property>
      </widget>
     </widget>

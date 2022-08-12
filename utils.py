@@ -35,7 +35,7 @@ class Utils(QtWidgets.QMainWindow):
             villan_hand = None # no prior knowledge about the villan
             exact_calculation = False #  calculates exactly by simulating the set of all possible hands
             verbose = True # returns odds of making a certain poker hand, e.g., quads, set, straight
-            num_sims = 5 # ignored by exact_calculation = True
+            num_sims = 50 # ignored by exact_calculation = True
             read_from_file = None # we are not reading hands from file
 
             if range:
@@ -62,7 +62,24 @@ class Utils(QtWidgets.QMainWindow):
                                                 print_elapsed_time = False)
                 odds = odds[0]
 
-            print(odds)
+            
+            self.lbl_datatitle.setEnabled(True)
+            self.lbl_win.setEnabled(True)
+            self.lbl_win.setText('Win: {} %'.format(str(np.round(odds['win']*100, 3))))
+
+            self.lbl_tie.setEnabled(True)
+            self.lbl_tie.setText('Tie: {} %'.format(str(np.round(odds['tie']*100, 3))))
+
+            self.lbl_loose.setEnabled(True)
+            self.lbl_loose.setText('Lose: {} %'.format(str(np.round(odds['lose']*100, 3))))
 
         except Exception:
-            pass
+            self.lbl_datatitle.setEnabled(False)
+            self.lbl_win.setEnabled(False)
+            self.lbl_win.setText('Win: 0 %')
+
+            self.lbl_tie.setEnabled(False)
+            self.lbl_tie.setText('Tie: 0 %')
+
+            self.lbl_loose.setEnabled(False)
+            self.lbl_loose.setText('Lose: 0 %')
