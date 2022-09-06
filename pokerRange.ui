@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1337</width>
+    <width>1104</width>
     <height>687</height>
    </rect>
   </property>
@@ -11438,7 +11438,7 @@ border-bottom: None
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1337</width>
+     <width>1104</width>
      <height>24</height>
     </rect>
    </property>
@@ -11450,7 +11450,15 @@ border-bottom: None
     <addaction name="actionLoad"/>
     <addaction name="actionClose"/>
    </widget>
+   <widget class="QMenu" name="menuTrain">
+    <property name="title">
+     <string>Train</string>
+    </property>
+    <addaction name="actionGame"/>
+    <addaction name="actionSettings"/>
+   </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuTrain"/>
   </widget>
   <action name="actionSave">
    <property name="text">
@@ -11471,6 +11479,16 @@ border-bottom: None
   <action name="actionClose">
    <property name="text">
     <string>Close</string>
+   </property>
+  </action>
+  <action name="actionGame">
+   <property name="text">
+    <string>Game</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="text">
+    <string>Settings</string>
    </property>
   </action>
  </widget>

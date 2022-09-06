@@ -10,6 +10,9 @@ import sys
 from poker import Range
 from utils import *
 
+from windowClasses import ExtraWindow_label
+
+
 
 class TopMenu(QtWidgets.QMainWindow):
     def menu_elements_action(self, menu_btn):
@@ -149,3 +152,7 @@ class TopMenu(QtWidgets.QMainWindow):
 
         if menu_btn == "Close":
             sys.exit()
+        
+        if menu_btn == "Game":
+            ui = ExtraWindow_label(self)
+            ui.show()

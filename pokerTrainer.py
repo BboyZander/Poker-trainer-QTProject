@@ -100,7 +100,7 @@ class Ui_MainWindow(
 
         self.btn_clear_hand.clicked.connect(self.clear_hand)
         self.btn_random_hand.clicked.connect(self.get_random_hand)
-
+ 
     
     def buttons_click_actions(self):
         """
@@ -114,6 +114,9 @@ class Ui_MainWindow(
         )
         self.actionClose.triggered.connect(
             lambda: self.menu_elements_action(self.actionClose.text())
+        )
+        self.actionGame.triggered.connect(
+            lambda: self.menu_elements_action(self.actionGame.text())
         )
 
         
