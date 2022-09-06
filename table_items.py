@@ -93,12 +93,14 @@ class TableItems(QtWidgets.QMainWindow):
                     button.setEnabled(True)
 
         self.table = deck
+        if len(deck) > 2:
+            self.get_odds(self.tEdit_range.toPlainText(), self.table, self.hand)
+
 
     def clear_table(self):
         """
         Clear table items
         """
-
 
         for key in self.dict_table.keys():
             self.dict_table[key] = []
@@ -108,8 +110,11 @@ class TableItems(QtWidgets.QMainWindow):
                 button.nextCheckState()
                 button.setIcon(QIcon())
 
+            if button.text() in self.hand:
+                button.setEnabled(False)
+            else:
+                button.setEnabled(True)
 
-            button.setEnabled(True)
         
         self.tEditFlop1.setPlainText('')
         self.tEditFlop2.setPlainText('')
@@ -178,3 +183,6 @@ class TableItems(QtWidgets.QMainWindow):
                     button.setEnabled(False)
                 else:
                     button.setEnabled(True)
+        
+        self.get_odds(self.tEdit_range.toPlainText(), self.table, self.hand)
+

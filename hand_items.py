@@ -55,7 +55,10 @@ class HandItems(QtWidgets.QMainWindow):
             if button.isChecked():
                 button.nextCheckState()
 
-            button.setEnabled(True)
+            if button.text() in self.table:
+                button.setEnabled(False)
+            else:
+                button.setEnabled(True)
 
         if len(self.table) < 5:
             for button in self.frameTableCards.findChildren(QtWidgets.QAbstractButton):
@@ -63,6 +66,10 @@ class HandItems(QtWidgets.QMainWindow):
                     button.setEnabled(True)
 
         self.hand = []
+        self.lbl_win.setText('Win: 0%') 
+        self.lbl_tie.setText('Tie: 0%') 
+        self.lbl_loose.setText('Lose: 0%') 
+
 
     def get_random_hand(self):
         
@@ -99,4 +106,7 @@ class HandItems(QtWidgets.QMainWindow):
                     button.setEnabled(False)
                 else:
                     button.setEnabled(True)
+
+        self.get_odds(self.tEdit_range.toPlainText(), self.table, self.hand)
+
 

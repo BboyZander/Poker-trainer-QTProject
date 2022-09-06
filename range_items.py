@@ -64,7 +64,7 @@ class RangeItems(QtWidgets.QMainWindow):
             sender.text()
             .replace(combos_text, str(new_combos_cnt) + " combos")
             .replace(
-                percent_text, str(round(len(combos) / len(list(Hand)) * 100, 1)) + " %"
+                percent_text, str(round(new_combos_cnt / 1326 * 100, 1)) + " %"
             )
         )
         sender.setText(new_text)

@@ -35,7 +35,7 @@ class Utils(QtWidgets.QMainWindow):
             villan_hand = None # no prior knowledge about the villan
             exact_calculation = False #  calculates exactly by simulating the set of all possible hands
             verbose = True # returns odds of making a certain poker hand, e.g., quads, set, straight
-            num_sims = 50 # ignored by exact_calculation = True
+            num_sims = 10 # ignored by exact_calculation = True
             read_from_file = None # we are not reading hands from file
 
             if range:

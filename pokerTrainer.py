@@ -3,10 +3,6 @@ from PyQt6 import QtWidgets, uic
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
-import numpy as np
-import pandas as pd
-import re
-
 from poker import Range
 from poker.hand import Hand
 
