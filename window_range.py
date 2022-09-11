@@ -6,14 +6,11 @@ from PyQt6.QtGui import *
 from poker import Range
 from poker.hand import Hand
 
-from windowClasses import ExtraWindow_label 
+from window_trainer import Trainer_window 
 import top_menu, utils
 
 import sys
 import os
-
-# sys.path.insert(1, os.path.join(os.getcwd(), 'range_package'))
-# sys.path.append(os.path.join(os.getcwd(), 'holdem_calc_package'))
 
 from range_package import hand_items,table_items, range_items, tree_widget_items
 
@@ -28,7 +25,7 @@ class Ui_MainWindow(
 ):
     def __init__(self):
         super().__init__()
-        uic.loadUi("RangeWindow.ui", self)
+        uic.loadUi("window_range.ui", self)
 
         self.dict_range = {}
         self.dict_table = {"Flop": [], "Turn": [], "River": []}
@@ -143,12 +140,12 @@ class Ui_MainWindow(
                 sender.nextCheckState()
                 self.rangeButtonClicked(sender)
 
-        if (
-            event.type() == QEvent.Type.MouseButtonDblClick
-            and obj is self.lbl_cnt_combos
-        ):
-            ui = ExtraWindow_label(self)
-            ui.show()
+        # if (
+        #     event.type() == QEvent.Type.MouseButtonDblClick
+        #     and obj is self.lbl_cnt_combos
+        # ):
+        #     ui = ExtraWindow_label(self)
+        #     ui.show()
 
         elif event.type() == QEvent.Type.HoverMove:
             pass

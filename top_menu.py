@@ -10,7 +10,8 @@ import sys
 from poker import Range
 from utils import *
 
-from windowClasses import ExtraWindow_label
+from window_trainer import Trainer_window 
+
 
 
 
@@ -154,5 +155,5 @@ class TopMenu(QtWidgets.QMainWindow):
             sys.exit()
         
         if menu_btn == "Game":
-            ui = ExtraWindow_label(self)
+            ui = Trainer_window(self)
             ui.show()
