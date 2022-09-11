@@ -6,9 +6,16 @@ from PyQt6.QtGui import *
 from poker import Range
 from poker.hand import Hand
 
-from windowClasses import ExtraWindow_label
-import table_items, top_menu, range_items, tree_widget_items, hand_items, utils
+from windowClasses import ExtraWindow_label 
+import top_menu, utils
 
+import sys
+import os
+
+# sys.path.insert(1, os.path.join(os.getcwd(), 'range_package'))
+# sys.path.append(os.path.join(os.getcwd(), 'holdem_calc_package'))
+
+from range_package import hand_items,table_items, range_items, tree_widget_items
 
 class Ui_MainWindow(
     tree_widget_items.TreeWidgetItems,
@@ -21,7 +28,7 @@ class Ui_MainWindow(
 ):
     def __init__(self):
         super().__init__()
-        uic.loadUi("pokerRange.ui", self)
+        uic.loadUi("RangeWindow.ui", self)
 
         self.dict_range = {}
         self.dict_table = {"Flop": [], "Turn": [], "River": []}
@@ -34,6 +41,10 @@ class Ui_MainWindow(
         self.buttons_click_actions()
 
         self.eventfilter_elements()
+
+        self.setFixedHeight(670)
+        self.setFixedWidth(1110)
+
 
         # self.treeWidget_range.itemDoubleClicked.connect(self.rename_value)
         # self.treeWidget_range.itemChanged.connect(self.checkName, Qt.ConnectionType.QueuedConnection)

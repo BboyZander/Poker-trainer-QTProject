@@ -1,14 +1,16 @@
-from PyQt6 import QtCore, QtGui, QtWidgets, uic
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QMessageBox
 
 from PyQt6.QtCore import *
 from PyQt6.QtGui import *
 
 from poker import *
-import holdem_calc
-import holdem_functions
 
 import numpy as np
+
+import holdem_calc_package.holdem_calc as holdem_calc
+
+
 
 class Utils(QtWidgets.QMainWindow):
 
