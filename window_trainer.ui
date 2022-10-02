@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Trainer</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QFrame" name="tableFrame">
@@ -44,6 +44,103 @@
     </property>
     <property name="frameShadow">
      <enum>QFrame::Raised</enum>
+    </property>
+    <widget class="QTextEdit" name="textEditLogger">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>251</width>
+       <height>571</height>
+      </rect>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::Box</enum>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QPushButton" name="btn_play">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>610</y>
+      <width>100</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-color: rgb(130, 170, 90);
+border: None;
+padding-top: 5px;
+color: rgb(226, 234, 216);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+border-radius: 10px
+}
+QPushButton::hover {
+background-color: rgb(138, 181, 96);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+}
+QPushButton::pressed {
+background-color: rgb(120, 157, 83);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-top: 5px solid rgb(110, 144, 76);
+padding-top: -5px;
+border-bottom: None
+}</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>Play</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_stop">
+    <property name="geometry">
+     <rect>
+      <x>930</x>
+      <y>610</y>
+      <width>100</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+background-color: rgb(130, 170, 90);
+border: None;
+padding-top: 5px;
+color: rgb(226, 234, 216);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+border-radius: 10px
+}
+QPushButton::hover {
+background-color: rgb(138, 181, 96);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-bottom: 5px solid rgb(110, 144, 76);
+}
+QPushButton::pressed {
+background-color: rgb(120, 157, 83);
+border-left: 1px solid rgb(110, 144, 76);
+border-right: 1px solid rgb(110, 144, 76);
+border-top: 5px solid rgb(110, 144, 76);
+padding-top: -5px;
+border-bottom: None
+}</string>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
+    </property>
+    <property name="text">
+     <string>Stop</string>
     </property>
    </widget>
   </widget>

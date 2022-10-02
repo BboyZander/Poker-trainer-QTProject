@@ -8,9 +8,12 @@ from poker.hand import Hand
 
 import sys
 import os
+import logging
 
 from range_package import hand_items,table_items, range_items, tree_widget_items
 import utils
+
+logger = logging.getLogger(__name__)
 
 class Trainer_window(  
     tree_widget_items.TreeWidgetItems,  
